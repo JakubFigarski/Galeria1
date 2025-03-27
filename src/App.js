@@ -1,23 +1,41 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const categories = ['bronie', 'samochody', 'zwierzeta'];
+  const images = {
+    bronie: ['bron1.jpg', 'bron2.jpg', 'bron3.jpg'],
+    samochody: ['samochod1.jpg', 'samochod2.jpg', 'samochod3.jpg'],
+    zwierzeta: ['zwierze1.jpg', 'zwierze2.jpg', 'zwierze3.jpg'],
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [zoomedImage, setZoomedImage] = useState(null);
+
+  const changeCategory = (category) => setSelectedCategory(category);
+  const toggleZoom = (image) => setZoomedImage(zoomedImage === image ? null : image);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Galeria</h1>
+      <nav>
+        {categories.map((category) => (
+          <button key={category} onClick={() => changeCategory(category)}>
+            {category}
+          </button>
+        ))}
+      </nav>
+      <div className="gallery">
+        {images[selectedCategory].map((image, index) => (
+          <img
+            key={index}
+            src={`/${image}`}
+            alt=""
+            style={{ width: zoomedImage === image ? '500px' : '100px', cursor: 'pointer' }}
+            onClick={() => toggleZoom(image)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
